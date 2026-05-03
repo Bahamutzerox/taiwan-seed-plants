@@ -423,12 +423,40 @@ footer a:hover { text-decoration: underline; }
 footer p + p { margin-top: 0.2rem; }
 
 /* ── Responsive ── */
-@media (max-width: 600px) {
-  .header-top { padding: 0.6rem 1rem; }
-  .header-title { padding: 0.75rem 1rem 0.4rem; }
-  .header-title h1 { font-size: 1.4rem; }
-  .search-controls { padding: 0.5rem 1rem 0.65rem; flex-direction: column; align-items: stretch; }
-  .search-wrapper { max-width: 100%; }
-  .stats { padding: 0.1rem 1rem 0.5rem; }
-  main { padding: 1.5rem 1rem 2.5rem; }
+@media (max-width: 680px) {
+  /* Header：標題在上，搜尋在下 */
+  .header-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.7rem 1rem 0.5rem;
+  }
+  .header-title h1 { font-size: 1.2rem; }
+  .version { font-size: 0.74rem; }
+
+  /* 搜尋列：搜尋欄佔滿，篩選器緊跟在右 */
+  .search-controls { flex-wrap: nowrap; gap: 0.4rem; }
+  .search-wrapper { flex: 1; min-width: 0; max-width: none; }
+  .filter-chip { padding: 0.22rem 0.45rem; font-size: 0.74rem; white-space: nowrap; }
+
+  .stats { padding: 0.1rem 1rem 0.35rem; font-size: 0.74rem; }
+  main { padding: 1rem 0.85rem 2rem; }
+
+  /* 種名排版：名稱+學名在同一行，命名者縮排到下一行 */
+  .species-line { flex-wrap: wrap; }
+  .species-author {
+    flex-basis: 100%;
+    padding-left: 1.7rem;
+    font-size: 0.78em;
+    color: var(--text-muted);
+    margin-top: -0.1rem;
+  }
+
+  /* 縮排收窄 */
+  .genus { padding-left: 0.4rem; }
+  .species-list { padding-left: 0.4rem; font-size: 0.86rem; }
+  .species-refs { margin-left: 1rem; }
+
+  .family-title { font-size: 1rem; }
+  .genus-title { font-size: 0.93rem; }
 }

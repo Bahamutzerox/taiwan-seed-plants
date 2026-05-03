@@ -442,14 +442,13 @@ footer p + p { margin-top: 0.2rem; }
   .stats { padding: 0.1rem 1rem 0.35rem; font-size: 0.74rem; }
   main { padding: 1rem 0.85rem 2rem; }
 
-  /* 種名排版：名稱+學名在同一行，命名者縮排到下一行 */
+  /* 種名排版：學名+命名者+符號整組換行，不拆散 */
   .species-line { flex-wrap: wrap; }
-  .species-author {
-    flex-basis: 100%;
-    padding-left: 1.7rem;
-    font-size: 0.78em;
-    color: var(--text-muted);
-    margin-top: -0.1rem;
+  .species-suffix {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    white-space: nowrap;
   }
 
   /* 縮排收窄 */

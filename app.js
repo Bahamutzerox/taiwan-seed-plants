@@ -221,8 +221,8 @@ function render() {
   <div class="species-line">
     <span class="sp-num">${spNum}.</span>
     <span class="species-cn">${highlight(sp.cn, q)}</span>
-    <span class="species-lat">${highlight(sp.lat, q)}</span>${exoticMark}${refIcon}
-    <span class="species-author">${escHtml(sp.author)}</span>
+    <span class="species-lat">${highlight(sp.lat, q)}</span>
+    <span class="species-suffix"><span class="species-author">${escHtml(sp.author)}</span>${exoticMark}${refIcon}</span>
   </div>
   ${refsHtml}
 </li>`;

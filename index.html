@@ -39,17 +39,19 @@
   <div id="stats" class="stats"></div>
 </header>
 
-<main>
-  <div id="loading" class="loading">載入資料中…</div>
-  <div id="checklist"></div>
-  <div id="no-results" class="no-results hidden">
-    <p>找不到符合「<span id="search-term"></span>」的物種</p>
-  </div>
-</main>
+<div class="page-layout">
+  <aside id="family-sidebar" class="family-sidebar"></aside>
+  <main>
+    <div id="loading" class="loading">載入資料中…</div>
+    <div id="checklist"></div>
+    <div id="no-results" class="no-results hidden">
+      <p>找不到符合「<span id="search-term"></span>」的物種</p>
+    </div>
+  </main>
+</div>
 
 <footer>
   <p>© 分類沙丘 Taxonomic Dune · <a href="https://taxonomicdune.com">taxonomicdune.com</a></p>
-  <p>* 外來種 &nbsp; × 雜交種</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>

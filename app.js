@@ -175,6 +175,15 @@ function highlight(text, q) {
   return escHtml(text).replace(new RegExp(`(${safeQ})`, 'gi'), '<mark>$1</mark>');
 }
 
+function formatLat(text, q) {
+  const parts = text.split(/\b(var\.|subsp\.|f\.|ex)(?=\s|$)/);
+  return parts.map(part =>
+    /^(var\.|subsp\.|f\.|ex)$/.test(part)
+      ? `<span class="lat-abbr">${escHtml(part)}</span>`
+      : highlight(part, q)
+  ).join('');
+}
+
 // ── Rendering ────────────────────────────────────────────────────
 function render() {
   const hierarchy = buildHierarchy(allSpecies, allRefs);
@@ -221,7 +230,7 @@ function render() {
   <div class="species-line">
     <span class="sp-num">${spNum}.</span>
     <span class="species-cn">${highlight(sp.cn, q)}</span>
-    <span class="species-lat">${highlight(sp.lat, q)}</span>
+    <span class="species-lat">${formatLat(sp.lat, q)}</span>
     <span class="species-suffix"><span class="species-author">${escHtml(sp.author)}</span>${exoticMark}${refIcon}</span>
   </div>
   ${refsHtml}

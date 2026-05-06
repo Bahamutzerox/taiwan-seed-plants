@@ -1,7 +1,7 @@
 // ── Configuration ────────────────────────────────────────────────
 const CONFIG = {
-  speciesUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRrQG7JtZIPCO5neNhi1qQSxfuCAMhDxl06bDqCeQGfyQVX_iGXodeRshtH7DNZZjCPBggdxr1whbI/pub?gid=156413889&single=true&output=csv',
-  refsUrl:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vTRrQG7JtZIPCO5neNhi1qQSxfuCAMhDxl06bDqCeQGfyQVX_iGXodeRshtH7DNZZjCPBggdxr1whbI/pub?gid=988139071&single=true&output=csv',
+  speciesUrl: 'https://raw.githubusercontent.com/Bahamutzerox/taiwan-seed-plants/master/data/species.csv',
+  refsUrl:    'https://raw.githubusercontent.com/Bahamutzerox/taiwan-seed-plants/master/data/references.csv',
 };
 
 // ── 示範資料（未設定 Google Sheets 時使用）─────────────────────

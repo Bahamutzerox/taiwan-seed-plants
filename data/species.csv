@@ -1,4 +1,4 @@
-﻿group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_lat,author,is_exotic,notes
+group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_lat,author,is_exotic,notes
 裸子植物,Gymnosperm,蘇鐵科,Cycadaceae,蘇鐵屬,Cycas,蘇鐵,Cycas revoluta,Thunb.,False,
 裸子植物,Gymnosperm,松科,Pinaceae,冷杉屬,Abies,臺灣冷杉,Abies kawakamii,(Hayata) Ito,False,
 裸子植物,Gymnosperm,松科,Pinaceae,冷杉屬,Abies,日本冷杉,Abies firma,Siebold & Zucc.,True,
@@ -4846,3 +4846,4 @@
 被子植物,Angiosperm,繖形科,Apiaceae,零餘子屬,Sium,細葉零餘子,Sium suave,Walter,False,
 被子植物,Angiosperm,繖形科,Apiaceae,竊衣屬,Torilis,竊衣,Torilis japonica,(Houtt.) DC.,False,
 被子植物,Angiosperm,繖形科,Apiaceae,竊衣屬,Torilis,紫花竊衣,Torilis scabra,(Thunb.) DC.,False,
+,,,Curssulaceae,瓦松屬,Orostachys,晚紅瓦松 ,Orostachys japonica,(Maxim.) A. Berger,False,

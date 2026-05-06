@@ -190,12 +190,12 @@ nav a:hover { color: var(--accent); }
 
 /* ── Layout ── */
 .page-layout {
-  padding-left: 168px;
+  padding-left: 220px;
 }
 
 /* ── Sidebar ── */
 .family-sidebar {
-  width: 168px;
+  width: 220px;
   position: fixed;
   left: 0;
   top: var(--header-h, 110px);
@@ -242,6 +242,28 @@ nav a:hover { color: var(--accent); }
 .sidebar-family:hover {
   color: var(--accent);
   background: var(--tag-bg);
+}
+
+.sidebar-group-en {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--accent-light);
+  font-family: var(--font-sans);
+  margin-left: 0.4rem;
+}
+
+.sidebar-order-lat {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  margin-left: 0.3rem;
+}
+
+.sidebar-family-lat {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  margin-left: 0.3rem;
 }
 
 .sidebar-order {

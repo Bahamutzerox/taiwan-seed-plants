@@ -240,6 +240,29 @@ const APG_FAMILY = {
 };
 
 const APG_GROUP_NAMES = ['裸子植物', '被子植物基群', '單子葉植物', '真雙子葉植物'];
+const APG_GROUP_EN    = ['Gymnosperms', 'Basal Angiosperms', 'Monocots', 'Eudicots'];
+
+const APG_ORDER_LAT = {
+  '蘇鐵目': 'Cycadales', '銀杏目': 'Ginkgoales', '松目': 'Pinales', '麻黃目': 'Ephedrales',
+  '睡蓮目': 'Nymphaeales', '八角目': 'Austrobaileyales', '金粟蘭目': 'Chloranthales',
+  '胡椒目': 'Piperales', '木蘭目': 'Magnoliales', '樟目': 'Laurales', '金魚藻目': 'Ceratophyllales',
+  '菖蒲目': 'Acorales', '澤瀉目': 'Alismatales', '波葉目': 'Petrosaviales',
+  '薯蕷目': 'Dioscoreales', '露兜樹目': 'Pandanales', '百合目': 'Liliales',
+  '天門冬目': 'Asparagales', '棕櫚目': 'Arecales', '鴨跖草目': 'Commelinales',
+  '禾本目': 'Poales', '薑目': 'Zingiberales',
+  '毛茛目': 'Ranunculales', '山龍眼目': 'Proteales', '昆欄樹目': 'Trochodendrales',
+  '黃楊目': 'Buxales', '虎皮楠目': 'Daphniphyllales', '虎耳草目': 'Saxifragales',
+  '葡萄目': 'Vitales', '蒺藜目': 'Zygophyllales', '衛矛目': 'Celastrales',
+  '酢醬草目': 'Oxalidales', '金虎尾目': 'Malpighiales', '豆目': 'Fabales',
+  '薔薇目': 'Rosales', '葫蘆目': 'Cucurbitales', '殼斗目': 'Fagales',
+  '牻牛兒苗目': 'Geraniales', '桃金孃目': 'Myrtales', '旌節花目': 'Crossosomatales',
+  '十齒花目': 'Huerteales', '十字花目': 'Brassicales', '錦葵目': 'Malvales',
+  '無患子目': 'Sapindales', '檀香目': 'Santalales', '石竹目': 'Caryophyllales',
+  '山茱萸目': 'Cornales', '杜鵑花目': 'Ericales', '絞木目': 'Garryales',
+  '龍膽目': 'Gentianales', '茄目': 'Solanales', '紫草目': 'Boraginales',
+  '唇形目': 'Lamiales', '冬青目': 'Aquifoliales', '菊目': 'Asterales',
+  '川續斷目': 'Dipsacales', '繖形目': 'Apiales',
+};
 
 function getApgInfo(familyLat) {
   return APG_FAMILY[familyLat] || { group: 3, order: 999 };
@@ -347,7 +370,7 @@ function buildHierarchy(species, refs) {
   }
 
   // 依 APG IV 分組並排序
-  const apgGroups = APG_GROUP_NAMES.map(cn => ({ cn, families: [] }));
+  const apgGroups = APG_GROUP_NAMES.map((cn, i) => ({ cn, en: APG_GROUP_EN[i], families: [] }));
   for (const [, family] of familyMap) {
     const info = getApgInfo(family.lat);
     apgGroups[info.group].families.push({ ...family, apgOrder: info.order });
@@ -395,7 +418,7 @@ function renderSidebar(apgGroups, visibleFamilyLats) {
   for (const group of apgGroups) {
     const visible = group.families.filter(f => visibleFamilyLats.has(f.lat));
     if (visible.length === 0) continue;
-    html += `<div class="sidebar-group"><div class="sidebar-group-title">${escHtml(group.cn)}</div>`;
+    html += `<div class="sidebar-group"><div class="sidebar-group-title">${escHtml(group.cn)}<span class="sidebar-group-en">${escHtml(group.en)}</span></div>`;
 
     // 按目分組
     const orderMap = new Map();
@@ -405,9 +428,12 @@ function renderSidebar(apgGroups, visibleFamilyLats) {
       orderMap.get(ordName).push(f);
     }
     for (const [ordName, families] of orderMap) {
-      if (ordName) html += `<div class="sidebar-order">${escHtml(ordName)}</div>`;
+      if (ordName) {
+        const ordLat = APG_ORDER_LAT[ordName] || '';
+        html += `<div class="sidebar-order">${escHtml(ordName)}<span class="sidebar-order-lat">${escHtml(ordLat)}</span></div>`;
+      }
       for (const f of families) {
-        html += `<a class="sidebar-family" href="#fam-${escHtml(f.lat)}">${escHtml(f.cn)}</a>`;
+        html += `<a class="sidebar-family" href="#fam-${escHtml(f.lat)}">${escHtml(f.cn)}<span class="sidebar-family-lat">${escHtml(f.lat)}</span></a>`;
       }
     }
     html += '</div>';

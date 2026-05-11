@@ -362,6 +362,8 @@ function buildHierarchy(species, refs) {
       cn: sp.species_cn?.trim() || '', lat: sp.species_lat?.trim() || '',
       author: sp.author?.trim() || '', isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
       notes: sp.notes?.trim() || '', refs: mergedRefs,
+      familyCn: sp.family_cn?.trim() || '', familyLat: fKey,
+      genusCn: sp.genus_cn?.trim() || '', genusLat: geKey,
     });
   }
 
@@ -380,7 +382,12 @@ function buildHierarchy(species, refs) {
 function matchesQuery(sp, q) {
   if (!q) return true;
   const low = q.toLowerCase();
-  return sp.cn.toLowerCase().includes(low) || sp.lat.toLowerCase().includes(low);
+  return sp.cn.toLowerCase().includes(low)
+      || sp.lat.toLowerCase().includes(low)
+      || sp.genusCn.toLowerCase().includes(low)
+      || sp.genusLat.toLowerCase().includes(low)
+      || sp.familyCn.toLowerCase().includes(low)
+      || sp.familyLat.toLowerCase().includes(low);
 }
 
 function escHtml(str) {

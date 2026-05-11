@@ -527,7 +527,10 @@ mark {
 }
 .td-sp.open .td-ref-tog { transform: rotate(180deg); }
 
-/* References block */
+/* References block — hidden by default, shown when .open */
+.td-refs { display: none; }
+.td-sp.open .td-refs { display: block; }
+
 .td-refs {
   margin: 0.4rem 0 0.7rem 2.1rem;
   padding: 0.7rem 0.95rem;

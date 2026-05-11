@@ -103,6 +103,13 @@ mark {
   letter-spacing: 0.2em;
   margin-top: 0.2rem;
 }
+.td-stickybar-mark-date {
+  font-family: var(--td-font-mono);
+  font-size: 0.6rem;
+  color: var(--td-fg-4);
+  letter-spacing: 0.05em;
+  margin-top: 0.1rem;
+}
 
 /* search */
 .td-search-wrap {

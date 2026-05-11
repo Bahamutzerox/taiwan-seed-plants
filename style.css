@@ -98,14 +98,14 @@ mark {
 }
 .td-stickybar-mark-en {
   font-family: var(--td-font-sans);
-  font-size: 0.65rem;
+  font-size: 0.78rem;
   color: var(--td-fg-3);
   letter-spacing: 0.2em;
   margin-top: 0.2rem;
 }
 .td-stickybar-mark-date {
   font-family: var(--td-font-mono);
-  font-size: 0.6rem;
+  font-size: 0.72rem;
   color: var(--td-fg-4);
   letter-spacing: 0.05em;
   margin-top: 0.1rem;

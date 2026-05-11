@@ -4,7 +4,7 @@ const CONFIG = {
   refsUrl:    'https://raw.githubusercontent.com/Bahamutzerox/taiwan-seed-plants/master/data/references.csv',
 };
 
-// ── 示範資料（未設定 Google Sheets 時使用）─────────────────────
+// ── Sample data (fallback) ────────────────────────────────────────
 const SAMPLE_SPECIES = [
   { group_cn:'裸子植物', group_lat:'Gymnosperm', family_cn:'蘇鐵科', family_lat:'Cycadaceae', genus_cn:'蘇鐵屬', genus_lat:'Cycas', species_cn:'蘇鐵', species_lat:'Cycas revoluta', author:'Thunb.', is_exotic:'FALSE', notes:'' },
 ];
@@ -13,8 +13,6 @@ const SAMPLE_REFS = [
 ];
 
 // ── APG IV 科別分組對照表 ─────────────────────────────────────
-// group: 0=裸子植物 1=被子植物基群 2=單子葉植物 3=真雙子葉植物
-// ord: 目中文名  order: 排序用數字
 const APG_FAMILY = {
   // 裸子植物
   'Cycadaceae':      { group: 0, ord: '蘇鐵目', order:  1 },
@@ -241,6 +239,7 @@ const APG_FAMILY = {
 
 const APG_GROUP_NAMES = ['裸子植物', '被子植物基群', '單子葉植物', '真雙子葉植物'];
 const APG_GROUP_EN    = ['Gymnosperms', 'Basal Angiosperms', 'Monocots', 'Eudicots'];
+const APG_GROUP_ROMAN = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ'];
 
 const APG_ORDER_LAT = {
   '蘇鐵目': 'Cycadales', '銀杏目': 'Ginkgoales', '松目': 'Pinales', '麻黃目': 'Ephedrales',
@@ -275,7 +274,7 @@ let query      = '';
 let showNative = true;
 let showExotic = true;
 
-// ── DOM ──────────────────────────────────────────────────────────
+// ── DOM refs ──────────────────────────────────────────────────────
 const searchInput  = document.getElementById('search-input');
 const clearBtn     = document.getElementById('clear-search');
 const filterNative = document.getElementById('filter-native');
@@ -288,51 +287,54 @@ const searchTermEl = document.getElementById('search-term');
 const statsEl      = document.getElementById('stats');
 const loadingEl    = document.getElementById('loading');
 const sidebarEl    = document.getElementById('family-sidebar');
+const stickyBar    = document.getElementById('td-stickybar');
 
-// ── Header height CSS var ─────────────────────────────────────
-function setHeaderHeight() {
-  const h = document.querySelector('.site-header')?.offsetHeight || 110;
-  document.documentElement.style.setProperty('--header-h', h + 'px');
-}
-window.addEventListener('resize', setHeaderHeight);
+// ── Scroll: sticky bar + active family ───────────────────────────
+window.addEventListener('scroll', () => {
+  // Sticky bar is always visible (no hero), so just track active family
+  const fams = document.querySelectorAll('.td-family');
+  let current = null;
+  for (const f of fams) {
+    const r = f.getBoundingClientRect();
+    if (r.top < 80) current = f.dataset.familyLat;
+    else break;
+  }
+  // Update sidebar active link
+  document.querySelectorAll('.td-side-fam').forEach(a => {
+    const isActive = a.getAttribute('href') === '#fam-' + current;
+    a.classList.toggle('td-side-fam--active', isActive);
+  });
+}, { passive: true });
 
-// ── Data Loading ─────────────────────────────────────────────────
+// ── Data loading ──────────────────────────────────────────────────
 async function loadData() {
   try {
-    if (CONFIG.speciesUrl && CONFIG.refsUrl) {
-      const [speciesData, refsData] = await Promise.all([
-        fetchCSV(CONFIG.speciesUrl),
-        fetchCSV(CONFIG.refsUrl),
-      ]);
-      allSpecies = speciesData;
-      allRefs    = refsData;
-    } else {
-      allSpecies = SAMPLE_SPECIES;
-      allRefs    = SAMPLE_REFS;
-    }
+    const [speciesData, refsData] = await Promise.all([
+      fetchCSV(CONFIG.speciesUrl),
+      fetchCSV(CONFIG.refsUrl),
+    ]);
+    allSpecies = speciesData;
+    allRefs    = refsData;
   } catch (err) {
-    console.warn('無法載入 Google Sheets 資料，改用示範資料。', err);
+    console.warn('無法載入資料，改用示範資料。', err);
     allSpecies = SAMPLE_SPECIES;
     allRefs    = SAMPLE_REFS;
   }
   loadingEl.classList.add('hidden');
-  setHeaderHeight();
   render();
 }
 
 function fetchCSV(url) {
   return new Promise((resolve, reject) => {
     Papa.parse(url, {
-      download:       true,
-      header:         true,
-      skipEmptyLines: true,
+      download: true, header: true, skipEmptyLines: true,
       complete: r => resolve(r.data),
-      error:    reject,
+      error: reject,
     });
   });
 }
 
-// ── Data Grouping ────────────────────────────────────────────────
+// ── Data grouping ─────────────────────────────────────────────────
 function buildHierarchy(species, refs) {
   const refsByTaxon = new Map();
   for (const ref of refs) {
@@ -349,27 +351,20 @@ function buildHierarchy(species, refs) {
       familyMap.set(fKey, { cn: sp.family_cn?.trim() || '', lat: fKey, genera: new Map() });
     }
     const family = familyMap.get(fKey);
-
-    const geKey = sp.genus_lat?.trim() || '';
+    const geKey  = sp.genus_lat?.trim() || '';
     if (!family.genera.has(geKey)) {
       family.genera.set(geKey, { cn: sp.genus_cn?.trim() || '', lat: geKey, species: [] });
     }
-
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
     const genusRefs = refsByTaxon.get(geKey) || [];
     const mergedRefs = [...spRefs, ...genusRefs.filter(r => !spRefs.includes(r))];
-
     family.genera.get(geKey).species.push({
-      cn:       sp.species_cn?.trim()  || '',
-      lat:      sp.species_lat?.trim() || '',
-      author:   sp.author?.trim()      || '',
-      isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
-      notes:    sp.notes?.trim()       || '',
-      refs:     mergedRefs,
+      cn: sp.species_cn?.trim() || '', lat: sp.species_lat?.trim() || '',
+      author: sp.author?.trim() || '', isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
+      notes: sp.notes?.trim() || '', refs: mergedRefs,
     });
   }
 
-  // 依 APG IV 分組並排序
   const apgGroups = APG_GROUP_NAMES.map((cn, i) => ({ cn, en: APG_GROUP_EN[i], families: [] }));
   for (const [, family] of familyMap) {
     const info = getApgInfo(family.lat);
@@ -381,7 +376,7 @@ function buildHierarchy(species, refs) {
   return apgGroups;
 }
 
-// ── Filtering & Highlighting ──────────────────────────────────────
+// ── Text helpers ──────────────────────────────────────────────────
 function matchesQuery(sp, q) {
   if (!q) return true;
   const low = q.toLowerCase();
@@ -390,10 +385,8 @@ function matchesQuery(sp, q) {
 
 function escHtml(str) {
   return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function highlight(text, q) {
@@ -404,23 +397,34 @@ function highlight(text, q) {
 
 function formatLat(text, q) {
   const parts = text.split(/\b(var\.|subsp\.|f\.|ex)(?=\s|$)/);
-  return parts.map(part =>
-    /^(var\.|subsp\.|f\.|ex)$/.test(part)
-      ? `<span class="lat-abbr">${escHtml(part)}</span>`
-      : highlight(part, q)
+  return parts.map(p =>
+    /^(var\.|subsp\.|f\.|ex)$/.test(p)
+      ? `<span class="lat-abbr">${escHtml(p)}</span>`
+      : highlight(p, q)
   ).join('');
 }
 
-// ── Sidebar ───────────────────────────────────────────────────────
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+// ── Sidebar rendering ─────────────────────────────────────────────
 function renderSidebar(apgGroups, visibleFamilyLats) {
   if (!sidebarEl) return;
-  let html = '';
+  let html = `<div class="td-side-label">
+    <span class="td-side-label-num">索 引</span>
+    <span class="td-side-label-en">Index — by family</span>
+  </div>`;
+
   for (const group of apgGroups) {
     const visible = group.families.filter(f => visibleFamilyLats.has(f.lat));
-    if (visible.length === 0) continue;
-    html += `<div class="sidebar-group"><div class="sidebar-group-title">${escHtml(group.cn)}<span class="sidebar-group-en">${escHtml(group.en)}</span></div>`;
+    if (!visible.length) continue;
 
-    // 按目分組
+    html += `<div class="td-side-group">
+      <div class="td-side-group-title">
+        <span class="td-side-group-cn">${escHtml(group.cn)}</span>
+        <span class="td-side-group-en">${escHtml(group.en)}</span>
+      </div>`;
+
+    // Group by order
     const orderMap = new Map();
     for (const f of visible) {
       const ordName = getApgInfo(f.lat).ord || '';
@@ -430,39 +434,43 @@ function renderSidebar(apgGroups, visibleFamilyLats) {
     for (const [ordName, families] of orderMap) {
       if (ordName) {
         const ordLat = APG_ORDER_LAT[ordName] || '';
-        html += `<div class="sidebar-order">${escHtml(ordName)}<span class="sidebar-order-lat">${escHtml(ordLat)}</span></div>`;
+        html += `<div class="td-side-order-block">
+          <div class="td-side-order">
+            <span class="td-side-order-cn">${escHtml(ordName)}</span>
+            <span class="td-side-order-lat">${escHtml(ordLat)}</span>
+          </div>`;
       }
       for (const f of families) {
-        html += `<a class="sidebar-family" href="#fam-${escHtml(f.lat)}">${escHtml(f.cn)}<span class="sidebar-family-lat">${escHtml(f.lat)}</span></a>`;
+        html += `<a class="td-side-fam" href="#fam-${escHtml(f.lat)}">
+          <span class="td-side-fam-cn">${escHtml(f.cn)}</span>
+          <span class="td-side-fam-lat">${escHtml(f.lat)}</span>
+        </a>`;
       }
+      if (ordName) html += `</div>`;
     }
-    html += '</div>';
+    html += `</div>`;
   }
   sidebarEl.innerHTML = html;
 }
 
-// ── Rendering ────────────────────────────────────────────────────
+// ── Main render ───────────────────────────────────────────────────
 function render() {
   const apgGroups = buildHierarchy(allSpecies, allRefs);
   const q = query.trim();
-  let totalVisible = 0;
-  let familyCount  = 0;
-  let genusCount   = 0;
+  let totalVisible = 0, familyCount = 0, genusCount = 0;
   let html = '';
   const visibleFamilyLats = new Set();
 
-  for (const group of apgGroups) {
-    let groupHtml  = '';
-    let familyNum  = 0;
+  for (let gi = 0; gi < apgGroups.length; gi++) {
+    const group = apgGroups[gi];
+    let groupHtml = '';
+    let groupFamNum = 0;
 
     for (const family of group.families) {
-      let familyHtml    = '';
-      let familyVisible = false;
-      let genusNum = 0;
+      let familyHtml = '', familyVisible = false, genusNum = 0;
 
       for (const [, genus] of family.genera) {
-        let genusSp = '';
-        let spNum   = 0;
+        let genusSp = '', spNum = 0;
 
         for (const sp of genus.species) {
           if (sp.isExotic && !showExotic) continue;
@@ -473,25 +481,29 @@ function render() {
           totalVisible++;
 
           const hasRefs    = sp.refs.length > 0;
-          const exoticMark = sp.isExotic ? '<span class="exotic-mark">*</span>' : '';
-          const refIcon    = hasRefs ? '<span class="ref-toggle-icon">▾</span>' : '';
+          const exoticMark = sp.isExotic ? `<span class="td-ex-mark" title="外來種">＊</span>` : '';
+          const refTog     = hasRefs ? `<span class="td-ref-tog" aria-hidden="true">▾</span>` : '';
 
           const refsHtml = hasRefs
-            ? `<div class="species-refs">${sp.refs.map(r => {
-                const doiLink = r.doi?.trim()
-                  ? ` <a class="ref-doi" href="https://doi.org/${escHtml(r.doi.trim())}" target="_blank" rel="noopener">DOI ↗</a>`
+            ? `<div class="td-refs">${sp.refs.map(r => {
+                const doi = r.doi?.trim()
+                  ? ` <a class="td-doi" href="https://doi.org/${escHtml(r.doi.trim())}" target="_blank" rel="noopener">DOI&nbsp;↗</a>`
                   : '';
-                return `<div class="ref-item"><span class="ref-citation">${escHtml(r.citation || '')}</span>${doiLink}</div>`;
+                return `<div class="td-ref"><span class="td-ref-cite">${escHtml(r.citation || '')}</span>${doi}</div>`;
               }).join('')}</div>`
             : '';
 
           genusSp += `
-<li class="species-item${hasRefs ? ' has-refs' : ''}">
-  <div class="species-line">
-    <span class="sp-num">${spNum}.</span>
-    <span class="species-cn">${highlight(sp.cn, q)}</span>
-    <span class="species-lat">${formatLat(sp.lat, q)}</span>
-    <span class="species-suffix"><span class="species-author">${escHtml(sp.author)}</span>${exoticMark}${refIcon}</span>
+<li class="td-sp${hasRefs ? ' has-refs' : ''}">
+  <div class="td-sp-line">
+    <span class="td-sp-num">${pad2(spNum)}</span>
+    <span class="td-sp-bullet" aria-hidden="true">·</span>
+    <span class="td-sp-cn">${highlight(sp.cn, q)}</span>
+    <span class="td-sp-lat">${formatLat(sp.lat, q)}</span>
+    <span class="td-sp-suffix">
+      <span class="td-sp-author">${escHtml(sp.author)}</span>
+      ${exoticMark}${refTog}
+    </span>
   </div>
   ${refsHtml}
 </li>`;
@@ -502,33 +514,56 @@ function render() {
           genusCount++;
           familyVisible = true;
           familyHtml += `
-<div class="genus">
-  <div class="genus-title"><span class="genus-num">${genusNum}.</span> ${escHtml(genus.cn)} <em>${escHtml(genus.lat)}</em></div>
-  <ol class="species-list">${genusSp}</ol>
+<div class="td-genus">
+  <div class="td-genus-title">
+    <span class="td-genus-num">${pad2(genusNum)}</span>
+    <span class="td-genus-cn">${escHtml(genus.cn)}</span>
+    <em class="td-genus-lat">${escHtml(genus.lat)}</em>
+  </div>
+  <ol class="td-sp-list">${genusSp}</ol>
 </div>`;
         }
       }
 
       if (familyVisible) {
-        familyNum++;
+        groupFamNum++;
         familyCount++;
         visibleFamilyLats.add(family.lat);
+
+        // Count genera and species in this family for display
+        let famGenCount = 0, famSpCount = 0;
+        for (const [, g] of family.genera) {
+          const visible = g.species.filter(sp =>
+            (sp.isExotic ? showExotic : showNative) && matchesQuery(sp, q)
+          );
+          if (visible.length) { famGenCount++; famSpCount += visible.length; }
+        }
+
         groupHtml += `
-<div class="family" id="fam-${escHtml(family.lat)}">
-  <div class="family-header">
-    <span class="family-num">${familyCount}.</span>
-    <span class="family-title">${escHtml(family.cn)} ${escHtml(family.lat)}</span>
-    <span class="family-toggle">▾</span>
-  </div>
-  <div class="family-content">${familyHtml}</div>
-</div>`;
+<section class="td-family" id="fam-${escHtml(family.lat)}" data-family-lat="${escHtml(family.lat)}">
+  <header class="td-fam-header">
+    <span class="td-fam-num">第 ${pad2(familyCount)} 科</span>
+    <span class="td-fam-rule" aria-hidden="true"></span>
+    <span class="td-fam-title">
+      <span class="td-fam-cn">${escHtml(family.cn)}</span>
+      <span class="td-fam-lat">${escHtml(family.lat)}</span>
+    </span>
+    <span class="td-fam-count">${famGenCount} 屬 · ${famSpCount} 種</span>
+    <span class="td-fam-tog" aria-hidden="true">▾</span>
+  </header>
+  <div class="td-fam-content">${familyHtml}</div>
+</section>`;
       }
     }
 
-    if (familyNum > 0) {
+    if (groupFamNum > 0) {
       html += `
-<section class="higher-group">
-  <h2 class="higher-group-title">${escHtml(group.cn)}</h2>
+<section class="td-higher-group">
+  <header class="td-higher-head">
+    <h2 class="td-higher-cn">${escHtml(group.cn)}</h2>
+    <span class="td-higher-en">${escHtml(group.en)}</span>
+    <span class="td-higher-no">PART · ${APG_GROUP_ROMAN[gi]}</span>
+  </header>
   ${groupHtml}
 </section>`;
     }
@@ -540,28 +575,29 @@ function render() {
   if (searchTermEl) searchTermEl.textContent = q;
 
   statsEl.textContent = q
-    ? `搜尋結果：${familyCount} 科 · ${genusCount} 屬 · ${totalVisible} 種`
+    ? `搜尋結果 ${familyCount} 科 · ${genusCount} 屬 · ${totalVisible} 種`
     : `共 ${familyCount} 科 · ${genusCount} 屬 · ${totalVisible} 種`;
 
   renderSidebar(apgGroups, visibleFamilyLats);
   attachEvents();
 }
 
+// ── Event delegation ──────────────────────────────────────────────
 function attachEvents() {
-  document.querySelectorAll('.family-header').forEach(header => {
+  document.querySelectorAll('.td-fam-header').forEach(header => {
     header.addEventListener('click', () => {
-      header.closest('.family').classList.toggle('collapsed');
+      header.closest('.td-family').classList.toggle('collapsed');
     });
   });
 
-  document.querySelectorAll('.species-item.has-refs .species-line').forEach(line => {
+  document.querySelectorAll('.td-sp.has-refs .td-sp-line').forEach(line => {
     line.addEventListener('click', () => {
-      line.closest('.species-item').classList.toggle('refs-open');
+      line.closest('.td-sp').classList.toggle('open');
     });
   });
 }
 
-// ── Event Listeners ──────────────────────────────────────────────
+// ── Input listeners ───────────────────────────────────────────────
 let debounceTimer;
 searchInput.addEventListener('input', () => {
   query = searchInput.value;
@@ -580,27 +616,27 @@ clearBtn.addEventListener('click', () => {
 
 filterNative.addEventListener('change', () => {
   showNative = filterNative.checked;
-  chipNative.classList.toggle('active', showNative);
+  chipNative.classList.toggle('on', showNative);
   render();
 });
 
 filterExotic.addEventListener('change', () => {
   showExotic = filterExotic.checked;
-  chipExotic.classList.toggle('active', showExotic);
+  chipExotic.classList.toggle('on', showExotic);
   render();
 });
 
-// ── Init ─────────────────────────────────────────────────────────
+// Smooth scroll for sidebar wheel
 if (sidebarEl) {
   sidebarEl.addEventListener('wheel', e => {
-    const { deltaY } = e;
-    const atTop    = sidebarEl.scrollTop === 0 && deltaY < 0;
-    const atBottom = sidebarEl.scrollTop + sidebarEl.clientHeight >= sidebarEl.scrollHeight && deltaY > 0;
+    const atTop    = sidebarEl.scrollTop === 0 && e.deltaY < 0;
+    const atBottom = sidebarEl.scrollTop + sidebarEl.clientHeight >= sidebarEl.scrollHeight && e.deltaY > 0;
     if (!atTop && !atBottom) {
       e.preventDefault();
-      sidebarEl.scrollTop += deltaY;
+      sidebarEl.scrollTop += e.deltaY;
     }
   }, { passive: false });
 }
 
+// ── Boot ──────────────────────────────────────────────────────────
 loadData();

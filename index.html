@@ -4,54 +4,61 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>臺灣種子植物名錄 — 分類沙丘</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<a id="top"></a>
 
-<header class="site-header">
-  <div class="header-main">
-    <div class="header-title">
-      <h1>臺灣種子植物名錄</h1>
-      <p class="version">last update: 2026-05-04 · <span class="exotic-note">* 外來種</span></p>
+<header class="td-stickybar td-stickybar--show" id="td-stickybar">
+  <div class="td-stickybar-inner">
+    <a href="#top" class="td-stickybar-mark">
+      <span class="td-stickybar-mark-cn">臺灣種子植物名錄</span>
+      <span class="td-stickybar-mark-en">List of Seed Plants of Taiwan</span>
+    </a>
+
+    <div class="td-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input type="search" id="search-input" placeholder="搜尋中文名或拉丁名…" autocomplete="off">
+      <button id="clear-search" class="td-clear hidden" aria-label="清除">✕</button>
     </div>
 
-    <div class="search-controls">
-      <div class="search-wrapper">
-        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-        </svg>
-        <input type="search" id="search-input" placeholder="搜尋中文名或拉丁名…" autocomplete="off">
-        <button id="clear-search" class="clear-btn hidden" aria-label="清除搜尋">✕</button>
-      </div>
-      <div class="filter-group">
-        <label class="filter-chip active" id="chip-native">
-          <input type="checkbox" id="filter-native" checked> 原生種
-        </label>
-        <label class="filter-chip active" id="chip-exotic">
-          <input type="checkbox" id="filter-exotic" checked> 外來種 *
-        </label>
-      </div>
+    <div class="td-chips">
+      <label class="td-chip on" id="chip-native">
+        <input type="checkbox" id="filter-native" checked>
+        <span>原生種</span>
+      </label>
+      <label class="td-chip on" id="chip-exotic">
+        <input type="checkbox" id="filter-exotic" checked>
+        <span>外來種<span class="td-ex">＊</span></span>
+      </label>
     </div>
+
+    <div class="td-stickybar-stats" id="stats"></div>
   </div>
-
-  <div id="stats" class="stats"></div>
 </header>
 
-<div class="page-layout">
-  <aside id="family-sidebar" class="family-sidebar"></aside>
-  <main>
-    <div id="loading" class="loading">載入資料中…</div>
+<div class="td-page">
+  <aside id="family-sidebar" class="td-sidebar"></aside>
+  <main class="td-main">
+    <div id="loading" class="td-loading">載入資料中…</div>
     <div id="checklist"></div>
-    <div id="no-results" class="no-results hidden">
-      <p>找不到符合「<span id="search-term"></span>」的物種</p>
+    <div id="no-results" class="td-empty hidden">
+      <p class="td-empty-mark">※</p>
+      <p>找不到符合「<span class="td-q" id="search-term"></span>」的物種</p>
+      <p class="td-empty-hint">試試更短的關鍵字或拉丁屬名。</p>
     </div>
   </main>
 </div>
 
-<footer>
-  <p>© 分類沙丘 Taxonomic Dune · <a href="https://taxonomicdune.com">taxonomicdune.com</a></p>
+<footer class="td-footer">
+  <div class="td-footer-rule"></div>
+  <div class="td-footer-inner">
+    <p class="td-footer-mark">分 類 沙 丘</p>
+    <p class="td-footer-meta">© Taxonomic Dune · <a href="https://taxonomicdune.com">taxonomicdune.com</a> · 2026</p>
+    <p class="td-footer-cite"><em>按 APG IV 系統收錄臺灣種子植物</em></p>
+  </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>

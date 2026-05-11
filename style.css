@@ -350,7 +350,6 @@ mark {
 }
 .td-higher-en {
   font-family: var(--td-font-serif);
-  font-style: italic;
   font-size: 0.95rem;
   color: var(--td-fg-3);
   letter-spacing: 0.06em;
@@ -406,7 +405,6 @@ mark {
 }
 .td-fam-lat {
   font-family: var(--td-font-serif);
-  font-style: italic;
   font-size: 0.95rem;
   color: var(--td-fg-3);
 }

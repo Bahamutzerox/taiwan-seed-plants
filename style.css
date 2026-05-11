@@ -91,7 +91,7 @@ mark {
 }
 .td-stickybar-mark-cn {
   font-family: var(--td-font-serif);
-  font-size: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--td-fg);
   letter-spacing: 0.16em;
@@ -267,8 +267,7 @@ mark {
   letter-spacing: 0.14em;
 }
 .td-side-order-lat {
-  font-family: var(--td-font-serif);
-  font-style: italic;
+  font-family: var(--td-font-sans);
   font-size: 0.66rem;
   color: var(--td-fg-3);
 }
@@ -276,8 +275,7 @@ mark {
 .td-side-fam {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
+  gap: 0.3rem;
   padding: 0.32rem 0.6rem 0.32rem 0.9rem;
   margin: 0.05rem 0;
   text-decoration: none;
@@ -307,13 +305,9 @@ mark {
   letter-spacing: 0.04em;
 }
 .td-side-fam-lat {
-  font-family: var(--td-font-serif);
-  font-style: italic;
+  font-family: var(--td-font-sans);
   font-size: 0.7rem;
   color: var(--td-fg-3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ── Main reading column ────────────────────────────────────────── */

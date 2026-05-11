@@ -543,7 +543,6 @@ function render() {
 <section class="td-family" id="fam-${escHtml(family.lat)}" data-family-lat="${escHtml(family.lat)}">
   <header class="td-fam-header">
     <span class="td-fam-num">第 ${pad2(familyCount)} 科</span>
-    <span class="td-fam-rule" aria-hidden="true"></span>
     <span class="td-fam-title">
       <span class="td-fam-cn">${escHtml(family.cn)}</span>
       <span class="td-fam-lat">${escHtml(family.lat)}</span>

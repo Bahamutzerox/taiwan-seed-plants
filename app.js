@@ -601,6 +601,15 @@ function attachEvents() {
       line.closest('.td-sp').classList.toggle('open');
     });
   });
+
+  // Sidebar family links: scroll without touching the URL hash
+  document.querySelectorAll('.td-side-fam').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
 }
 
 // ── Input listeners ───────────────────────────────────────────────

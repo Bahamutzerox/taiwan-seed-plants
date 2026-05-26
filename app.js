@@ -348,7 +348,7 @@ function buildHierarchy(species, refs) {
   for (const sp of species) {
     const fKey = sp.family_lat?.trim() || sp.family_cn?.trim() || '';
     if (!familyMap.has(fKey)) {
-      familyMap.set(fKey, { cn: sp.family_cn?.trim() || '', lat: fKey, genera: new Map() });
+      familyMap.set(fKey, { cn: sp.family_cn?.trim() || '', lat: fKey, genera: new Map(), refs: refsByTaxon.get(fKey) || [] });
     }
     const family = familyMap.get(fKey);
     const geKey  = sp.genus_lat?.trim() || '';
@@ -546,6 +546,15 @@ function render() {
           if (visible.length) { famGenCount++; famSpCount += visible.length; }
         }
 
+        const famRefsHtml = family.refs.length > 0
+          ? `<div class="td-fam-refs">${family.refs.map(r => {
+              const doi = r.doi?.trim()
+                ? ` <a class="td-doi" href="https://doi.org/${escHtml(r.doi.trim())}" target="_blank" rel="noopener">DOI&nbsp;↗</a>`
+                : '';
+              return `<div class="td-ref"><span class="td-ref-cite">${escHtml(r.citation || '')}</span>${doi}</div>`;
+            }).join('')}</div>`
+          : '';
+
         groupHtml += `
 <section class="td-family" id="fam-${escHtml(family.lat)}" data-family-lat="${escHtml(family.lat)}">
   <header class="td-fam-header">
@@ -557,7 +566,7 @@ function render() {
     <span class="td-fam-count">${famGenCount} 屬 · ${famSpCount} 種</span>
     <span class="td-fam-tog" aria-hidden="true">▾</span>
   </header>
-  <div class="td-fam-content">${familyHtml}</div>
+  <div class="td-fam-content">${famRefsHtml}${familyHtml}</div>
 </section>`;
       }
     }

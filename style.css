@@ -526,6 +526,14 @@ mark {
 }
 .td-sp.open .td-ref-tog { transform: rotate(180deg); }
 
+/* Family-level references block — always visible when family is expanded */
+.td-fam-refs {
+  margin: 0.6rem 0 1rem 0;
+  padding: 0.7rem 0.95rem;
+  border-left: 2px solid var(--td-fg-2);
+  background: var(--td-tag-bg);
+}
+
 /* References block — hidden by default, shown when .open */
 .td-refs { display: none; }
 .td-sp.open .td-refs { display: block; }

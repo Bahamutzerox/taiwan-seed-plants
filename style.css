@@ -532,17 +532,17 @@ mark {
   align-items: center;
   gap: 0.3rem;
   background: none;
-  border: 1px solid var(--td-fg-2);
-  border-radius: 3px;
-  padding: 0.15rem 0.5rem;
-  font-family: var(--td-font-sans);
+  border: none;
+  padding: 0;
+  font-family: var(--td-font-mono);
   font-size: 0.72rem;
-  color: var(--td-fg-2);
+  color: var(--td-fg-3);
+  letter-spacing: 0.06em;
   cursor: pointer;
   white-space: nowrap;
   align-self: center;
 }
-.td-fam-refs-tog:hover { color: var(--td-fg); border-color: var(--td-fg); }
+.td-fam-refs-tog:hover { color: var(--td-fg); }
 
 .td-fam-refs-arrow { transition: transform 0.2s; display: inline-block; }
 .td-family.refs-open .td-fam-refs-arrow { transform: rotate(180deg); }

@@ -376,7 +376,7 @@ mark {
 .td-fam-header {
   display: grid;
   grid-template-columns: auto 1fr auto auto auto;
-  align-items: baseline;
+  align-items: center;
   gap: 0.9rem;
   padding: 0.7rem 0 0.65rem;
   border-bottom: 1px solid var(--td-border);

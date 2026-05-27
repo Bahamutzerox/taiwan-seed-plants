@@ -375,7 +375,7 @@ mark {
 
 .td-fam-header {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   align-items: baseline;
   gap: 0.9rem;
   padding: 0.7rem 0 0.65rem;
@@ -526,9 +526,7 @@ mark {
 }
 .td-sp.open .td-ref-tog { transform: rotate(180deg); }
 
-/* Family-level references toggle */
-.td-fam-refs-wrap { margin: 0.6rem 0 1rem 0; }
-
+/* Family-level references toggle (sits in header grid) */
 .td-fam-refs-tog {
   display: inline-flex;
   align-items: center;
@@ -536,21 +534,23 @@ mark {
   background: none;
   border: 1px solid var(--td-fg-2);
   border-radius: 3px;
-  padding: 0.2rem 0.6rem;
+  padding: 0.15rem 0.5rem;
   font-family: var(--td-font-sans);
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   color: var(--td-fg-2);
   cursor: pointer;
-  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  align-self: center;
 }
 .td-fam-refs-tog:hover { color: var(--td-fg); border-color: var(--td-fg); }
 
 .td-fam-refs-arrow { transition: transform 0.2s; display: inline-block; }
-.td-fam-refs-wrap.open .td-fam-refs-arrow { transform: rotate(180deg); }
+.td-family.refs-open .td-fam-refs-arrow { transform: rotate(180deg); }
 
 .td-fam-refs { display: none; }
-.td-fam-refs-wrap.open .td-fam-refs {
+.td-family.refs-open .td-fam-refs {
   display: block;
+  margin: 0 0 1rem 0;
   padding: 0.7rem 0.95rem;
   border-left: 2px solid var(--td-fg-2);
   background: var(--td-tag-bg);

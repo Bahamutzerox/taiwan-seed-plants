@@ -547,12 +547,15 @@ function render() {
         }
 
         const famRefsHtml = family.refs.length > 0
-          ? `<div class="td-fam-refs">${family.refs.map(r => {
+          ? `<div class="td-fam-refs-wrap">
+  <button class="td-fam-refs-tog" aria-expanded="false">文獻 <span class="td-fam-refs-arrow" aria-hidden="true">▾</span></button>
+  <div class="td-fam-refs">${family.refs.map(r => {
               const doi = r.doi?.trim()
                 ? ` <a class="td-doi" href="https://doi.org/${escHtml(r.doi.trim())}" target="_blank" rel="noopener">DOI&nbsp;↗</a>`
                 : '';
               return `<div class="td-ref"><span class="td-ref-cite">${escHtml(r.citation || '')}</span>${doi}</div>`;
-            }).join('')}</div>`
+            }).join('')}</div>
+</div>`
           : '';
 
         groupHtml += `
@@ -602,6 +605,15 @@ function attachEvents() {
   document.querySelectorAll('.td-fam-header').forEach(header => {
     header.addEventListener('click', () => {
       header.closest('.td-family').classList.toggle('collapsed');
+    });
+  });
+
+  document.querySelectorAll('.td-fam-refs-tog').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const wrap = btn.closest('.td-fam-refs-wrap');
+      const open = wrap.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open);
     });
   });
 

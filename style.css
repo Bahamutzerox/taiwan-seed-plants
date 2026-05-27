@@ -526,9 +526,31 @@ mark {
 }
 .td-sp.open .td-ref-tog { transform: rotate(180deg); }
 
-/* Family-level references block — always visible when family is expanded */
-.td-fam-refs {
-  margin: 0.6rem 0 1rem 0;
+/* Family-level references toggle */
+.td-fam-refs-wrap { margin: 0.6rem 0 1rem 0; }
+
+.td-fam-refs-tog {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: 1px solid var(--td-fg-2);
+  border-radius: 3px;
+  padding: 0.2rem 0.6rem;
+  font-family: var(--td-font-sans);
+  font-size: 0.8rem;
+  color: var(--td-fg-2);
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+.td-fam-refs-tog:hover { color: var(--td-fg); border-color: var(--td-fg); }
+
+.td-fam-refs-arrow { transition: transform 0.2s; display: inline-block; }
+.td-fam-refs-wrap.open .td-fam-refs-arrow { transform: rotate(180deg); }
+
+.td-fam-refs { display: none; }
+.td-fam-refs-wrap.open .td-fam-refs {
+  display: block;
   padding: 0.7rem 0.95rem;
   border-left: 2px solid var(--td-fg-2);
   background: var(--td-tag-bg);

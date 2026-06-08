@@ -556,6 +556,36 @@ mark {
   background: var(--td-tag-bg);
 }
 
+/* Genus-level references toggle and display */
+.td-genus-refs-tog {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--td-font-mono);
+  font-size: 0.72rem;
+  color: var(--td-fg-3);
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  white-space: nowrap;
+  align-self: center;
+}
+.td-genus-refs-tog:hover { color: var(--td-fg); }
+
+.td-genus-refs-arrow { transition: transform 0.2s; display: inline-block; }
+.td-genus.refs-open .td-genus-refs-arrow { transform: rotate(180deg); }
+
+.td-genus-refs { display: none; }
+.td-genus.refs-open .td-genus-refs {
+  display: block;
+  margin: 0 0 0.8rem 0;
+  padding: 0.7rem 0.95rem;
+  border-left: 2px solid var(--td-fg-2);
+  background: var(--td-tag-bg);
+}
+
 /* References block — hidden by default, shown when .open */
 .td-refs { display: none; }
 .td-sp.open .td-refs { display: block; }

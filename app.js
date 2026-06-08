@@ -353,7 +353,7 @@ function buildHierarchy(species, refs) {
     const family = familyMap.get(fKey);
     const geKey  = sp.genus_lat?.trim() || '';
     if (!family.genera.has(geKey)) {
-      family.genera.set(geKey, { cn: sp.genus_cn?.trim() || '', lat: geKey, species: [] });
+      family.genera.set(geKey, { cn: sp.genus_cn?.trim() || '', lat: geKey, species: [], refs: refsByTaxon.get(geKey) || [] });
     }
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
     const genusRefs = refsByTaxon.get(geKey) || [];
@@ -520,13 +520,26 @@ function render() {
           genusNum++;
           genusCount++;
           familyVisible = true;
+          const genusRefsTog = genus.refs.length > 0
+            ? `<button class="td-genus-refs-tog" aria-expanded="false">文獻 <span class="td-genus-refs-arrow" aria-hidden="true">▾</span></button>`
+            : '';
+          const genusRefsHtml = genus.refs.length > 0
+            ? `<div class="td-genus-refs">${genus.refs.map(r => {
+                const doi = r.doi?.trim()
+                  ? ` <a class="td-doi" href="https://doi.org/${escHtml(r.doi.trim())}" target="_blank" rel="noopener">DOI&nbsp;↗</a>`
+                  : '';
+                return `<div class="td-ref"><span class="td-ref-cite">${escHtml(r.citation || '')}</span>${doi}</div>`;
+              }).join('')}</div>`
+            : '';
           familyHtml += `
 <div class="td-genus">
   <div class="td-genus-title">
     <span class="td-genus-num">${pad2(genusNum)}</span>
     <span class="td-genus-cn">${escHtml(genus.cn)}</span>
     <em class="td-genus-lat">${escHtml(genus.lat)}</em>
+    ${genusRefsTog}
   </div>
+  ${genusRefsHtml}
   <ol class="td-sp-list">${genusSp}</ol>
 </div>`;
         }
@@ -614,6 +627,15 @@ function attachEvents() {
       e.stopPropagation();
       const family = btn.closest('.td-family');
       const open = family.classList.toggle('refs-open');
+      btn.setAttribute('aria-expanded', open);
+    });
+  });
+
+  document.querySelectorAll('.td-genus-refs-tog').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const genus = btn.closest('.td-genus');
+      const open = genus.classList.toggle('refs-open');
       btn.setAttribute('aria-expanded', open);
     });
   });

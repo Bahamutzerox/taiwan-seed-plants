@@ -356,12 +356,10 @@ function buildHierarchy(species, refs) {
       family.genera.set(geKey, { cn: sp.genus_cn?.trim() || '', lat: geKey, species: [], refs: refsByTaxon.get(geKey) || [] });
     }
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
-    const genusRefs = refsByTaxon.get(geKey) || [];
-    const mergedRefs = [...spRefs, ...genusRefs.filter(r => !spRefs.includes(r))];
     family.genera.get(geKey).species.push({
       cn: sp.species_cn?.trim() || '', lat: sp.species_lat?.trim() || '',
       author: sp.author?.trim() || '', isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
-      notes: sp.notes?.trim() || '', refs: mergedRefs,
+      notes: sp.notes?.trim() || '', refs: spRefs,
       familyCn: sp.family_cn?.trim() || '', familyLat: fKey,
       genusCn: sp.genus_cn?.trim() || '', genusLat: geKey,
     });

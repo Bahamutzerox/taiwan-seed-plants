@@ -1,6 +1,5 @@
 group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_lat,author,is_exotic,notes
 裸子植物,Gymnosperm,蘇鐵科,Cycadaceae,蘇鐵屬,Cycas,蘇鐵,Cycas revoluta,Thunb.,False,
-裸子植物,Gymnosperm,松科,Pinaceae,冷杉屬,Abies,日本冷杉,Abies firma,Siebold & Zucc.,True,
 裸子植物,Gymnosperm,松科,Pinaceae,冷杉屬,Abies,臺灣冷杉,Abies kawakamii,(Hayata) Ito,False,
 裸子植物,Gymnosperm,松科,Pinaceae,油杉屬,Keteleeria,臺灣油杉,Keteleeria davidiana var. formosana,Hayata,False,
 裸子植物,Gymnosperm,松科,Pinaceae,雲杉屬,Picea,臺灣雲杉,Picea morrisonicola,Hayata,False,

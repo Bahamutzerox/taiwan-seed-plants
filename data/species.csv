@@ -94,7 +94,7 @@ group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_la
 被子植物,Angiosperm,馬兜鈴科,Aristolochiaceae,關木通屬,Isotrema,台灣馬兜鈴,Isotrema shimadae,"(Hayata) X.X.Zhu, S.Liao & J.S. Ma",False,
 被子植物,Angiosperm,馬兜鈴科,Aristolochiaceae,關木通屬,Isotrema,裕榮馬兜鈴,Isotrema yujungianum,"(C.T. Lu & J.C.Wang) X.X.Zhu, S.Liao & J.S. Ma",False,
 被子植物,Angiosperm,肉豆蔻科,Myristicaceae,肉荳蔻屬,Myristica,錫蘭肉豆蔻,Myristica ceylanica,A.DC.,False,
-被子植物,Angiosperm,肉豆蔻科,Myristicaceae,肉荳蔻屬,Myristica,紅頭肉豆蔻,Myristica elliptica Wall. ex Hook.f. & Thoms. var. simiarum,(A.DC.) J. Sinclair,False,
+被子植物,Angiosperm,肉豆蔻科,Myristicaceae,肉荳蔻屬,Myristica,紅頭肉豆蔻,Myristica elliptica var. simiarum,"Wall. ex Hook.f. & Thoms., (A.DC.) J. Sinclair",False,
 被子植物,Angiosperm,木蘭科,Magnoliaceae,木蘭屬,Magnolia,臺灣烏心石,Magnolia compressa var. formosana,(Kaneh.) Chien F.Chen,False,
 被子植物,Angiosperm,木蘭科,Magnoliaceae,木蘭屬,Magnolia,蘭嶼烏心石,Magnolia compressa var. lanyuensis,(S.Y.Lu) Chien F.Chen,False,
 被子植物,Angiosperm,木蘭科,Magnoliaceae,木蘭屬,Magnolia,烏心石舅,Magnolia kachirachirae,(Kaneh. & Yamam.) Dandy,False,

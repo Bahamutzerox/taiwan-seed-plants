@@ -623,18 +623,6 @@ mark {
 }
 .td-doi:hover { background: var(--td-fg); color: var(--td-bg); text-decoration: none; }
 
-/* ── iNaturalist link ───────────────────────────────────────────── */
-.td-inat {
-  font-family: var(--td-font-mono);
-  font-size: 0.7rem;
-  color: var(--td-fg-3);
-  text-decoration: none;
-  letter-spacing: 0.04em;
-  margin-left: 0.45rem;
-  white-space: nowrap;
-}
-.td-inat:hover { color: #74ac00; text-decoration: underline; }
-
 /* ── Empty state ────────────────────────────────────────────────── */
 .td-empty {
   text-align: center;

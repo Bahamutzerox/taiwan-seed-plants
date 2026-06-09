@@ -488,6 +488,8 @@ function render() {
           const hasRefs    = sp.refs.length > 0;
           const exoticMark = sp.isExotic ? `<span class="td-ex-mark" title="外來種">＊</span>` : '';
           const refTog     = hasRefs ? `<span class="td-ref-tog" aria-hidden="true">▾</span>` : '';
+          const inatUrl    = `https://www.inaturalist.org/taxa/search?q=${encodeURIComponent(sp.lat)}`;
+          const inatLink   = `<a class="td-inat" href="${inatUrl}" target="_blank" rel="noopener" title="在 iNaturalist 上搜尋">iNat&nbsp;↗</a>`;
 
           const refsHtml = hasRefs
             ? `<div class="td-refs">${sp.refs.map(r => {
@@ -507,7 +509,7 @@ function render() {
     <span class="td-sp-lat">${formatLat(sp.lat, q)}</span>
     <span class="td-sp-suffix">
       <span class="td-sp-author">${escHtml(sp.author)}</span>
-      ${exoticMark}${refTog}
+      ${inatLink}${exoticMark}${refTog}
     </span>
   </div>
   ${refsHtml}

@@ -503,7 +503,7 @@ function render() {
   <div class="td-sp-line">
     <span class="td-sp-num">${pad2(spNum)}</span>
     <span class="td-sp-bullet" aria-hidden="true">·</span>
-    <span class="td-sp-cn">${highlight(sp.cn, q)}</span>${sp.notes ? ` <span class="td-sp-alias">${escHtml(sp.notes)}</span>` : ''}
+    <span class="td-sp-cn">${highlight(sp.cn, q)}</span>
     <span class="td-sp-lat">${formatLat(sp.lat, q)}</span>
     <span class="td-sp-suffix">
       <span class="td-sp-author">${escHtml(sp.author)}</span>

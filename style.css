@@ -497,11 +497,6 @@ mark {
   font-weight: 500;
   letter-spacing: 0.08em;
 }
-.td-sp-alias {
-  font-size: 0.82rem;
-  color: var(--td-fg-3);
-  margin-left: 0.2em;
-}
 .td-sp-lat {
   font-style: italic;
   color: var(--td-fg-2);

@@ -231,6 +231,7 @@ const APG_FAMILY = {
   'Stemonuraceae':   { group: 3, ord: '冬青目',   order: 362 },
   'Asteraceae':      { group: 3, ord: '菊目',     order: 370 },
   'Campanulaceae':   { group: 3, ord: '菊目',     order: 371 },
+  'Stylidiaceae':    { group: 3, ord: '菊目',     order: 371 },
   'Goodeniaceae':    { group: 3, ord: '菊目',     order: 372 },
   'Menyanthaceae':   { group: 3, ord: '菊目',     order: 373 },
   'Adoxaceae':       { group: 3, ord: '川續斷目', order: 380 },

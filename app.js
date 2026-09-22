@@ -382,6 +382,7 @@ function buildHierarchy(species, refs) {
 
   const familyMap = new Map();
   for (const sp of species) {
+    if (!sp.family_lat?.trim() && !sp.family_cn?.trim()) continue;
     const fKey = sp.family_lat?.trim() || sp.family_cn?.trim() || '';
     if (!familyMap.has(fKey)) {
       familyMap.set(fKey, { cn: sp.family_cn?.trim() || '', lat: fKey, genera: new Map(), refs: refsByTaxon.get(fKey) || [] });

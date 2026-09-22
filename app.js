@@ -225,7 +225,7 @@ const APG_FAMILY = {
   'Verbenaceae':     { group: 3, ord: '唇形目',   order: 354 },
   'Aquifoliaceae':   { group: 3, ord: '冬青目',   order: 360 },
   'Helwingiaceae':   { group: 3, ord: '冬青目',   order: 361 },
-  'Stemonuraceae':   { group: 3, ord: '冬青目',   order: 362 },
+  'Stemonuraceae':   { group: 3, ord: '心翼果目', order: 359 },
   'Asteraceae':      { group: 3, ord: '菊目',     order: 370 },
   'Campanulaceae':   { group: 3, ord: '菊目',     order: 371 },
   'Stylidiaceae':    { group: 3, ord: '菊目',     order: 371 },
@@ -260,7 +260,7 @@ const APG_ORDER_LAT = {
   '無患子目': 'Sapindales', '檀香目': 'Santalales', '石竹目': 'Caryophyllales',
   '山茱萸目': 'Cornales', '杜鵑花目': 'Ericales', '絞木目': 'Garryales',
   '龍膽目': 'Gentianales', '茄目': 'Solanales', '紫草目': 'Boraginales',
-  '唇形目': 'Lamiales', '冬青目': 'Aquifoliales', '菊目': 'Asterales',
+  '唇形目': 'Lamiales', '心翼果目': 'Cardiopteridales', '冬青目': 'Aquifoliales', '菊目': 'Asterales',
   '川續斷目': 'Dipsacales', '繖形目': 'Apiales',
 };
 

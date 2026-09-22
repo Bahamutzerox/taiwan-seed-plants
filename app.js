@@ -363,7 +363,7 @@ async function loadData() {
 function fetchCSV(url) {
   return new Promise((resolve, reject) => {
     Papa.parse(url, {
-      download: true, header: true, skipEmptyLines: false,
+      download: true, header: true, skipEmptyLines: true,
       complete: r => resolve(r.data),
       error: reject,
     });

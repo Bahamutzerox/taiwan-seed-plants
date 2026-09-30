@@ -394,11 +394,12 @@ function buildHierarchy(species, refs) {
     }
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
     const fullLat   = sp.species_lat?.trim() || '';
-    const rankSplit = fullLat.match(/^(.*?)\s+((?:var|subsp|f)\..*)$/);
+    const rankSplit = fullLat.match(/^(.*?)\s+((?:var|subsp|f)\.)\s+(\S+)(.*)$/);
+    const isAutonym = rankSplit && rankSplit[1].split(/\s+/).pop() === rankSplit[3];
     family.genera.get(geKey).species.push({
       cn: sp.species_cn?.trim() || '', lat: fullLat,
-      latBase: rankSplit ? rankSplit[1] : null,
-      latInfra: rankSplit ? rankSplit[2] : null,
+      latBase: isAutonym ? rankSplit[1] : null,
+      latInfra: isAutonym ? (rankSplit[2] + ' ' + rankSplit[3] + rankSplit[4]) : null,
       author: sp.author?.trim() || '', isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
       notes: sp.notes?.trim() || '', refs: spRefs,
       familyCn: sp.family_cn?.trim() || '', familyLat: fKey,

@@ -393,8 +393,12 @@ function buildHierarchy(species, refs) {
       family.genera.set(geKey, { cn: sp.genus_cn?.trim() || '', lat: geKey, species: [], refs: refsByTaxon.get(geKey) || [] });
     }
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
+    const fullLat   = sp.species_lat?.trim() || '';
+    const rankSplit = fullLat.match(/^(.*?)\s+((?:var|subsp|f)\..*)$/);
     family.genera.get(geKey).species.push({
-      cn: sp.species_cn?.trim() || '', lat: sp.species_lat?.trim() || '',
+      cn: sp.species_cn?.trim() || '', lat: fullLat,
+      latBase: rankSplit ? rankSplit[1] : null,
+      latInfra: rankSplit ? rankSplit[2] : null,
       author: sp.author?.trim() || '', isExotic: sp.is_exotic?.trim().toUpperCase() === 'TRUE',
       notes: sp.notes?.trim() || '', refs: spRefs,
       familyCn: sp.family_cn?.trim() || '', familyLat: fKey,
@@ -446,16 +450,6 @@ function formatLat(text, q) {
   ).join('');
 }
 
-function formatAuthor(author, q) {
-  // If author contains var./subsp./f. (e.g. "Thunb. var. longiflorum"),
-  // italicise the trailing epithet so it renders correctly.
-  const m = author.match(/^(.*?)\s*(var\.|subsp\.|f\.)\s+(\S+)([\s\S]*)$/);
-  if (m) {
-    const [, pre, rank, epithet, rest] = m;
-    return `${escHtml(pre)} <span class="lat-abbr">${escHtml(rank)}</span> <em>${highlight(epithet, q)}</em>${escHtml(rest)}`;
-  }
-  return escHtml(author);
-}
 
 function pad2(n) { return String(n).padStart(2, '0'); }
 
@@ -552,9 +546,10 @@ function render() {
     <span class="td-sp-num">${pad2(spNum)}</span>
     <span class="td-sp-bullet" aria-hidden="true">·</span>
     <span class="td-sp-cn">${highlight(sp.cn, q)}</span>
-    <span class="td-sp-lat">${formatLat(sp.lat, q)}</span>
+    <span class="td-sp-lat">${formatLat(sp.latBase ?? sp.lat, q)}</span>
     <span class="td-sp-suffix">
-      <span class="td-sp-author">${formatAuthor(sp.author, q)}</span>
+      <span class="td-sp-author">${escHtml(sp.author)}</span>
+      ${sp.latInfra ? `<span class="td-sp-lat">${formatLat(sp.latInfra, q)}</span>` : ''}
       ${exoticMark}${refTog}
     </span>
   </div>

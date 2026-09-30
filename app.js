@@ -446,6 +446,17 @@ function formatLat(text, q) {
   ).join('');
 }
 
+function formatAuthor(author, q) {
+  // If author contains var./subsp./f. (e.g. "Thunb. var. longiflorum"),
+  // italicise the trailing epithet so it renders correctly.
+  const m = author.match(/^(.*?)\s*(var\.|subsp\.|f\.)\s+(\S+)([\s\S]*)$/);
+  if (m) {
+    const [, pre, rank, epithet, rest] = m;
+    return `${escHtml(pre)} <span class="lat-abbr">${escHtml(rank)}</span> <em>${highlight(epithet, q)}</em>${escHtml(rest)}`;
+  }
+  return escHtml(author);
+}
+
 function pad2(n) { return String(n).padStart(2, '0'); }
 
 // ── Sidebar rendering ─────────────────────────────────────────────
@@ -543,7 +554,7 @@ function render() {
     <span class="td-sp-cn">${highlight(sp.cn, q)}</span>
     <span class="td-sp-lat">${formatLat(sp.lat, q)}</span>
     <span class="td-sp-suffix">
-      <span class="td-sp-author">${escHtml(sp.author)}</span>
+      <span class="td-sp-author">${formatAuthor(sp.author, q)}</span>
       ${exoticMark}${refTog}
     </span>
   </div>

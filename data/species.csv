@@ -306,7 +306,7 @@ group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_la
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,蘭嶼薯蕷,Dioscorea flabellifolia,Prain & Burkill,False,
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,福州薯蕷,Dioscorea futschauensis,Uline ex R.Knuth,False,
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,大苦薯,Dioscorea hispida,Dennst.,False,
-被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,薄葉野山藥,Dioscorea japonica Thunb. var. japonica,,False,
+被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,薄葉野山藥,Dioscorea japonica var. japonica,Thunb.,False,
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,細葉野山藥,Dioscorea japonica var. oldhamii,R.Knuth,False,
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,基隆野山藥,Dioscorea japonica var. pseudojaponica,(Hayata) Yamam.,False,
 被子植物,Angiosperm,薯蕷科,Dioscoreaceae,薯蕷屬,Dioscorea,圓錐花薯蕷,Dioscorea kaoi,T.S.Liu & T.C.Huang,False,
@@ -323,7 +323,7 @@ group_cn,group_lat,family_cn,family_lat,genus_cn,genus_lat,species_cn,species_la
 被子植物,Angiosperm,露兜樹科,Pandanaceae,露兜樹屬,Pandanus,露兜樹,Pandanus odorifer,(Forssk.) Kuntze,False,
 被子植物,Angiosperm,黑葯花科,Melanthiaceae,胡麻花屬,Helonias,臺灣胡麻花,Helonias umbellata,(Baker) N. Tanaka,False,
 被子植物,Angiosperm,黑葯花科,Melanthiaceae,七葉一枝花屬,Paris,短瓣球葯隔七葉一枝花,Paris fargesii var. brevipetalata,(T.C.Huang & K.C.Yang) T.C.Huang & K.C.Yang,False,
-被子植物,Angiosperm,黑葯花科,Melanthiaceae,七葉一枝花屬,Paris,七葉一枝花,Paris polyphylla Sm. var. polyphylla,,False,華七葉一枝花
+被子植物,Angiosperm,黑葯花科,Melanthiaceae,七葉一枝花屬,Paris,七葉一枝花,Paris polyphylla var. polyphylla,Sm.,False,華七葉一枝花
 被子植物,Angiosperm,黑葯花科,Melanthiaceae,七葉一枝花屬,Paris,狹葉七葉一枝花,Paris polyphylla var. stenophylla,Franch.,False,
 被子植物,Angiosperm,黑葯花科,Melanthiaceae,七葉一枝花屬,Paris,臺東七葉一枝花,Paris polyphylla var. taitungensis,(S.S.Ying) S.S.Ying,False,
 被子植物,Angiosperm,黑葯花科,Melanthiaceae,延齡草屬,Trillium,延齡草,Trillium tschonoskii,Maxim.,False,

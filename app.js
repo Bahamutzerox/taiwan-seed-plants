@@ -395,7 +395,7 @@ function buildHierarchy(species, refs) {
     const spRefs    = refsByTaxon.get(sp.species_lat?.trim()) || [];
     const fullLat   = sp.species_lat?.trim() || '';
     const rankSplit = fullLat.match(/^(.*?)\s+((?:var|subsp|f)\.)\s+(\S+)(.*)$/);
-    const isAutonym = rankSplit && rankSplit[1].split(/\s+/).pop() === rankSplit[3];
+    const isAutonym = rankSplit && rankSplit[1].split(/\s+/).pop() === rankSplit[3] && !rankSplit[4].trim();
     family.genera.get(geKey).species.push({
       cn: sp.species_cn?.trim() || '', lat: fullLat,
       latBase: isAutonym ? rankSplit[1] : null,
